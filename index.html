@@ -1,0 +1,733 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create campaign landing page</title>
+  <meta name="description" content="Create a mobile-friendly campaign landing page with lead capture, account opening CTAs, and showcase app features through sliding cards for traders." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-primary: #09211f;
+      --text-secondary: #52645f;
+      --text-tertiary: #7d8d88;
+      --text-on-dark: #ffffff;
+      --text-cta-primary: #ffffff;
+      --text-cta-secondary: #07877b;
+      --text-label: #a7e3d7;
+      --bg-dark: #022f2d;
+      --bg-white: #ffffff;
+      --bg-light: #eef8f5;
+      --bg-cta: #07877b;
+      --bg-cta-pressed: #056f65;
+      --bg-cta-secondary: #ffffff;
+      --bg-input: #f3f7f6;
+      --border-cards: #dce9e5;
+      --border-primary: #d9e7e2;
+      --border-action: #07877b;
+      --border-secondary: #e5efec;
+      --n1: #ffffff;
+      --n4: #94a39f;
+      --n5: #bdcac6;
+      --n6: #d8e2df;
+      --n8: #fff2df;
+      --n9: #ffffff;
+      --icon-action: #ff7e4d;
+      --info-light: #f0f3ff;
+      --info-default: #4c62b0;
+      --info-border: #cbd4ff;
+      --danger: #b2191a;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      font-family: 'Radio Canada Big', Arial, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    img { max-width: 100%; display: block; }
+
+    .page { min-height: 100vh; background: var(--bg-light); }
+    .max-5xl { width: 100%; max-width: 1024px; margin: 0 auto; }
+    .max-3xl { width: 100%; max-width: 768px; margin: 0 auto; }
+
+    .web-heading-4 { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; font-weight: 700; letter-spacing: -0.04em; margin: 0; }
+    .web-title-2 { font-size: clamp(28px, 4vw, 38px); line-height: 1.18; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
+    .web-title-3 { font-size: clamp(21px, 3vw, 26px); line-height: 1.35; font-weight: 600; margin: 0; }
+    .web-title-4 { font-size: 18px; line-height: 1.35; font-weight: 700; margin: 0; }
+    .web-body-medium { font-size: 16px; line-height: 1.65; font-weight: 400; margin: 0; }
+    .web-body-small { font-size: 14px; line-height: 1.65; font-weight: 400; margin: 0; }
+    .web-body-xsmall { font-size: 12px; line-height: 1.6; font-weight: 400; margin: 0; }
+    .web-chips-small { font-size: 12px; line-height: 1; font-weight: 700; letter-spacing: .06em; margin: 0; }
+    .web-chips-large { font-size: 14px; line-height: 1.2; font-weight: 700; margin: 0; }
+    .web-button-large { font-size: 15px; line-height: 1; font-weight: 700; }
+    .web-button-medium { font-size: 14px; line-height: 1; font-weight: 700; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-primary);
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+    }
+    .nav img { height: 32px; width: auto; }
+    .nav-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-ghost-dark,
+    .btn-outline {
+      border-radius: 999px;
+      padding: 12px 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform .2s ease, opacity .2s ease, background .2s ease, box-shadow .2s ease;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--bg-cta); color: var(--text-cta-primary); border: 1px solid var(--bg-cta); }
+    .btn-primary:hover { background: var(--bg-cta-pressed); box-shadow: 0 10px 24px rgba(7,135,123,.22); }
+    .btn-secondary { background: transparent; color: var(--text-cta-secondary); border: 1px solid var(--border-action); padding: 10px 20px; }
+    .btn-outline { background: transparent; color: var(--text-cta-secondary); border: 1px solid var(--border-action); padding: 10px 24px; }
+    .btn-ghost-dark { background: transparent; color: var(--text-on-dark); border: 1px solid rgba(255,255,255,.45); }
+    .btn-primary:active,
+    .btn-secondary:active,
+    .btn-ghost-dark:active,
+    .btn-outline:active { transform: scale(.95); }
+
+    .hero { position: relative; overflow: hidden; background: var(--bg-dark); }
+    .hero-person {
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      width: 42%;
+      z-index: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-person-left-fade { position: absolute; inset-block: 0; left: 0; width: 25%; background: linear-gradient(to right, var(--bg-dark), transparent); z-index: 2; }
+    .hero-person-bottom-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 64px; background: linear-gradient(to top, var(--bg-dark), transparent); z-index: 2; }
+    .hero-person img { position: relative; z-index: 1; width: 100%; max-height: 100%; object-fit: contain; object-position: bottom; }
+    .hero-inner { position: relative; z-index: 10; padding: 64px 48px 80px; }
+    .hero-content { max-width: 576px; display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 24px; }
+    .hero-chip { color: var(--text-label); text-transform: uppercase; letter-spacing: .1em; }
+    .hero h1 { color: var(--text-on-dark); }
+    .hero-copy { color: var(--n6); line-height: 1.5; }
+    .hero-copy strong { color: var(--text-on-dark); }
+    .price-pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--icon-action);
+      color: #fff;
+      border-radius: 999px;
+      padding: 2px 16px 2px 14px;
+      font-weight: 700;
+      letter-spacing: .01em;
+      font-size: .95em;
+      vertical-align: middle;
+      box-shadow: 0 2px 12px rgba(255,126,77,.45);
+    }
+    .hero-ctas { display: flex; align-items: center; gap: 12px; }
+
+    .plan-badge-wrap { display: flex; justify-content: center; margin-top: -20px; position: relative; z-index: 10; padding: 0 16px; }
+    .plan-badge {
+      border-radius: 999px;
+      padding: 8px 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      background: var(--bg-white);
+      color: var(--text-cta-secondary);
+      border: 1px solid var(--border-primary);
+    }
+
+    .benefits { padding: 64px 24px; }
+    .section-head { text-align: center; margin-bottom: 40px; }
+    .section-head .web-chips-small { margin-bottom: 8px; color: var(--text-cta-secondary); }
+    .benefit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .benefit-card {
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid var(--border-cards);
+      background: var(--bg-white);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .benefit-icon { width: 44px; height: 44px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .benefit-rupee { color: #fff; font-size: 20px; font-weight: 700; }
+    .benefit-m { color: #fff; font-size: 17px; font-weight: 700; }
+    .benefit-card h3 { margin-bottom: 8px; color: var(--text-primary); }
+    .benefit-card p { color: var(--text-secondary); }
+    .inline-contact { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; color: var(--bg-cta); }
+    .highlight-options-lab { color: var(--bg-cta); font-weight: 600; background: var(--bg-light); border-radius: 6px; padding: 1px 7px; display: inline-block; }
+
+    .features {
+      padding: 64px 16px;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(9,135,123,0.18) 0%, transparent 70%), var(--bg-dark);
+    }
+    .features .section-head { margin-bottom: 48px; }
+    .features .section-head .web-chips-small { color: var(--bg-cta); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+    .features h2 { color: var(--text-on-dark); margin-bottom: 12px; }
+    .features .subtext { color: var(--n5); max-width: 520px; margin: 0 auto; }
+    .feature-carousel { position: relative; }
+    .feature-stage { min-height: 560px; display: flex; align-items: center; justify-content: center; gap: 24px; }
+    .ghost-card {
+      display: flex;
+      flex: 0 0 auto;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 16px;
+      cursor: pointer;
+      width: 200px;
+      height: 420px;
+      background: rgba(32,169,189,.09);
+      border: 1px solid rgba(32,169,189,.18);
+      opacity: .45;
+      transform: scale(.92);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .ghost-card:hover { opacity: .65; transform: scale(.94); }
+    .ghost-visual { width: 100%; height: 100%; overflow: hidden; background: var(--bg-dark); }
+    .ghost-visual img { width: 100%; height: 100%; object-fit: contain; object-position: top; padding: 10px 6px 0; }
+    .active-card {
+      flex: 0 0 auto;
+      width: min(320px, 88vw);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: rgba(53,88,212,.13);
+      border: 1px solid rgba(53,88,212,.35);
+      box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(9,135,123,.25);
+      animation: activeIn .52s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .active-visual { position: relative; overflow: hidden; height: 420px; background: var(--bg-dark); }
+    .active-visual img {
+      width: 100%;
+      height: 114%;
+      object-fit: contain;
+      object-position: top;
+      padding: 10px 6px 0;
+      transform-origin: top center;
+      animation: imageFloat 8s ease-in-out infinite;
+    }
+    .image-bottom-gradient { position: absolute; bottom: 0; left: 0; right: 0; height: 40px; pointer-events: none; background: linear-gradient(to top, rgba(255,255,255,.07), transparent); }
+    .active-content { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 8px; }
+    .feature-title { color: var(--text-on-dark); }
+    .feature-desc-row { display: flex; align-items: flex-start; gap: 8px; color: var(--n6); font-size: 14px; line-height: 1.65; }
+    .feature-check { flex-shrink: 0; margin-top: 2px; color: var(--bg-cta); }
+    .progress-track { margin-top: 12px; height: 2px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.12); }
+    .progress-bar { height: 100%; width: 0; border-radius: 999px; background: var(--bg-cta); transition: width 50ms linear; }
+    .feature-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 32px; }
+    .carousel-nav { width: 40px; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--bg-cta); color: #fff; border: none; cursor: pointer; }
+    .dots { display: flex; gap: 8px; align-items: center; }
+    .dot { width: 8px; height: 8px; border-radius: 999px; border: none; cursor: pointer; padding: 0; background: rgba(255,255,255,.22); transition: all .3s ease; }
+    .dot.active { width: 28px; background: var(--bg-cta); }
+
+    @keyframes activeIn { from { opacity: 0; transform: scale(.88) translateY(24px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes imageFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10%); } }
+
+    .cta-section { padding: 80px 24px; }
+    .cta-section .section-head { margin-bottom: 48px; }
+    .cta-section .web-title-2 { margin-bottom: 12px; color: var(--text-primary); }
+    .cta-section .web-body-medium { color: var(--text-secondary); }
+    .cta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .cta-card { border-radius: 28px; padding: 32px; display: flex; flex-direction: column; min-height: 312px; }
+    .cta-card svg { margin-bottom: 12px; }
+    .cta-card h3 { margin-bottom: 8px; color: var(--text-primary); }
+    .cta-card p { color: var(--text-secondary); margin-bottom: 24px; flex: 1; }
+    .cta-lead { background: var(--bg-light); border: 1px solid var(--border-primary); }
+    .cta-account { background: var(--info-light); border: 1px solid var(--info-border); }
+    .cta-dark { background: var(--bg-dark); }
+    .cta-dark h3 { color: var(--text-on-dark); }
+    .cta-dark p { color: var(--n6); }
+
+    .terms { padding: 64px 24px; background: var(--bg-white); border-top: 1px solid var(--border-primary); }
+    .terms h2 { color: var(--text-primary); text-align: center; margin-bottom: 8px; }
+    .tc-item { border-bottom: 1px solid var(--border-secondary); }
+    .tc-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border: 0; background: transparent; text-align: left; color: var(--text-primary); font-weight: 700; }
+    .tc-icon { color: var(--text-secondary); flex: 0 0 auto; }
+    .tc-up { display: none; }
+    .tc-toggle[aria-expanded="true"] .tc-down { display: none; }
+    .tc-toggle[aria-expanded="true"] .tc-up { display: block; }
+    .tc-panel { padding: 0 0 16px; color: var(--text-secondary); font-size: 14px; line-height: 1.65; }
+    .tc-panel ul { margin: 0; padding-left: 20px; }
+    .tc-panel li + li { margin-top: 4px; }
+    .terms-intro { margin: 0 0 8px; }
+    .terms-link { display: flex; justify-content: center; margin-top: 24px; }
+
+    .footer { padding: 40px 24px 32px; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-inner { display: flex; flex-direction: column; gap: 32px; }
+    .footer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }
+    .footer-logo { flex-shrink: 0; }
+    .footer-logo img { height: 67px; width: auto; }
+    .footer-contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-contact { display: flex; gap: 16px; }
+    .footer-contact p { display: flex; align-items: center; gap: 8px; color: var(--n5); }
+    .footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+    .footer-links a { color: var(--text-cta-secondary); }
+    .footer-links a:hover { text-decoration: underline; }
+    .footer-divider { border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-disclaimer { display: flex; flex-direction: column; gap: 12px; color: var(--n4); }
+    .footer-disclaimer p:first-child { line-height: 1.7; }
+
+    .modal { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(2,47,45,.65); backdrop-filter: blur(6px); }
+    .modal.active { display: flex; }
+    .modal-card { position: relative; width: 100%; max-width: 448px; border-radius: 28px; padding: 32px; box-shadow: 0 26px 70px rgba(0,0,0,.25); background: var(--bg-white); }
+    .modal-close { position: absolute; top: 16px; right: 16px; border: 0; background: transparent; padding: 8px; border-radius: 999px; color: var(--text-secondary); transition: opacity .2s ease; }
+    .modal-close:hover { opacity: .7; }
+    .modal .eyebrow { color: var(--bg-cta); margin-bottom: 4px; }
+    .modal h2 { color: var(--text-primary); margin-bottom: 24px; }
+    .form { display: flex; flex-direction: column; gap: 16px; }
+    .field label { display: block; margin-bottom: 4px; color: var(--text-secondary); font-weight: 500; }
+    .field input { width: 100%; border-radius: 12px; padding: 12px 16px; border: 1px solid var(--border-primary); outline: 0; color: var(--text-primary); background: var(--bg-input); font-size: 14px; line-height: 1.5; transition: border-color .2s ease, box-shadow .2s ease; }
+    .field input:focus { border-color: var(--bg-cta); box-shadow: 0 0 0 3px rgba(7,135,123,.12); }
+    .field input.error { border-color: var(--danger); }
+    .field-error { color: var(--danger); margin-top: 4px; display: none; }
+    .field-error.visible { display: block; }
+    .modal-note { color: var(--text-tertiary); text-align: center; }
+    .success { display: none; text-align: center; padding: 24px 0; }
+    .success.active { display: block; }
+    .success svg { margin: 0 auto 16px; color: var(--bg-cta); }
+    .success h2 { margin-bottom: 8px; }
+    .success p { color: var(--text-secondary); }
+    .success .btn-primary { margin-top: 24px; }
+    .form.hidden, .modal-intro.hidden { display: none; }
+
+    @media (max-width: 767px) {
+      .nav { padding: 12px 20px; }
+      .nav .btn-secondary { display: none; }
+      .hero-person { display: none; }
+      .hero-inner { padding: 64px 24px 80px; }
+      .hero-content { align-items: center; text-align: center; max-width: 100%; }
+      .hero-ctas { width: 100%; flex-direction: column; align-items: stretch; }
+      .hero-ctas .btn-primary,
+      .hero-ctas .btn-ghost-dark { width: 100%; }
+      .plan-badge { white-space: normal; text-align: center; justify-content: center; border-radius: 28px; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      .cta-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .footer-contact { flex-direction: column; gap: 12px; }
+      .modal-card { padding: 32px 24px; }
+    }
+    @media (max-width: 639px) {
+      .feature-stage { min-height: 560px; gap: 0; }
+      .ghost-card { display: none; }
+    }
+    @media (min-width: 768px) and (max-width: 960px) {
+      .cta-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav">
+      <img src="https://www.geojit.com/HomeDesign/images/logo.png" alt="Geojit" />
+      <div class="nav-actions">
+        <button class="btn-secondary web-button-medium js-open-modal" type="button">Enquire</button>
+        <a href="https://www.geojit.com/open-account" target="_blank" rel="noreferrer" class="btn-primary web-button-medium">Open Account</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-person" aria-hidden="true">
+        <div class="hero-person-left-fade"></div>
+        <div class="hero-person-bottom-fade"></div>
+        <img src="assets/TC__1_-2.png" alt="" />
+      </div>
+      <div class="hero-inner max-5xl">
+        <div class="hero-content">
+          <span class="web-chips-small hero-chip">Welcome to Traders Club</span>
+          <h1 class="web-heading-4">Still Paying<br />Per Order?</h1>
+          <p class="web-title-3 hero-copy">Introducing <strong>Unlimited F&amp;O Trading</strong> at <span class="price-pill">₹1,000&nbsp;/&nbsp;Month*</span></p>
+          <div class="hero-ctas">
+            <a href="https://www.geojit.com/open-account" target="_blank" rel="noreferrer" class="btn-primary web-button-large">Open Account &amp; Join <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+            <button class="btn-ghost-dark web-button-large js-open-modal" type="button">Know More</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="plan-badge-wrap">
+      <div class="plan-badge web-chips-large"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bg-cta)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg> Plan validity: 6 months &nbsp;·&nbsp; ₹6,000 + GST</div>
+    </div>
+
+    <section class="benefits max-5xl">
+      <div class="section-head">
+        <p class="web-chips-small">What you get</p>
+        <h2 class="web-title-2">Benefits of Traders Club</h2>
+      </div>
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon" style="background:var(--bg-cta)"><span class="benefit-rupee">₹</span></div>
+          <div>
+            <h3 class="web-title-4">Trade More Efficiently</h3>
+            <p class="web-body-small">Enjoy brokerage benefits especially useful when you trade frequently, adjust strategies, or manage multiple F&amp;O positions.</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon" style="background:#20a9bd"><span class="benefit-m">M</span></div>
+          <div>
+            <h3 class="web-title-4">Use Margin More Effectively</h3>
+            <p class="web-body-small">Pledge eligible holdings and use them as collateral margin without selling your investments. Take advantage of cash-equivalent collaterals.</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon" style="background:#f5a623"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></div>
+          <div>
+            <h3 class="web-title-4">Access Research &amp; Support</h3>
+            <p class="web-body-small">Access derivative research reports and receive exclusive support from your Relationship Manager or our team at <a href="tel:04846193205" class="inline-contact"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 10.8 19.79 19.79 0 0 1 .1 2.18 2 2 0 0 1 2.11 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L6.1 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" transform="translate(1 1) scale(.92)"/></svg>0484-619 3205</a> or <a href="mailto:cded@geojit.com" class="inline-contact"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>cded@geojit.com</a>.</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon" style="background:var(--bg-dark)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46L12 9h8a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46L12 15z"/></svg></div>
+          <div>
+            <h3 class="web-title-4">Flip &amp; Options Lab Features</h3>
+            <p class="web-body-small">Switch positions instantly with Flip Trading and analyse strategies with the <span class="highlight-options-lab">Options Lab</span> — payoff charts, Greeks, and scenario modelling in one place.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="max-5xl">
+        <div class="section-head">
+          <p class="web-chips-small">Powered by Flip — Web &amp; Mobile</p>
+          <h2 class="web-title-2">Built for serious F&amp;O traders</h2>
+          <p class="web-body-small subtext">Flip is Geojit's advanced trading platform — engineered for derivatives traders who need speed, precision, and depth. From multi-leg strategies to real-time OI analytics, every feature is built to give you an edge — on web and mobile.</p>
+        </div>
+        <div class="feature-carousel" id="featureCarousel">
+          <div class="feature-stage">
+            <button type="button" class="ghost-card" id="prevGhost" aria-label="Previous feature">
+              <div class="ghost-visual"><img id="prevGhostImg" src="" alt=""></div>
+            </button>
+            <article class="active-card" id="activeCard">
+              <div class="active-visual">
+                <img id="activeImg" src="" alt="">
+                <div class="image-bottom-gradient"></div>
+              </div>
+              <div class="active-content">
+                <h3 class="web-title-4 feature-title" id="activeTitle"></h3>
+                <div class="feature-desc-row">
+                  <svg class="feature-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+                  <span id="activeDesc"></span>
+                </div>
+                <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+              </div>
+            </article>
+            <button type="button" class="ghost-card" id="nextGhost" aria-label="Next feature">
+              <div class="ghost-visual"><img id="nextGhostImg" src="" alt=""></div>
+            </button>
+          </div>
+          <div class="feature-controls">
+            <button type="button" class="carousel-nav" id="prevBtn" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <div class="dots" id="dots"></div>
+            <button type="button" class="carousel-nav" id="nextBtn" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="cta-section">
+      <div class="max-5xl">
+        <div class="section-head">
+          <h2 class="web-title-2">Ready to start trading smarter?</h2>
+          <p class="web-body-medium">Choose how you'd like to begin</p>
+        </div>
+        <div class="cta-grid">
+          <div class="cta-card cta-lead">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--bg-cta)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 10.8 19.79 19.79 0 0 1 .1 2.18 2 2 0 0 1 2.11 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L6.1 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" transform="translate(1 1) scale(.92)"/></svg>
+            <h3 class="web-title-4">Talk to us</h3>
+            <p class="web-body-small">Have questions? Our team will call you back and walk you through the Traders Club benefits.</p>
+            <button class="btn-primary web-button-large js-open-modal" type="button">Request a Callback</button>
+          </div>
+          <div class="cta-card cta-account">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--info-default)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <h3 class="web-title-4">Open an Account</h3>
+            <p class="web-body-small">New to Geojit? Open a trading &amp; demat account online in minutes and unlock Traders Club.</p>
+            <a href="https://www.geojit.com/open-account" target="_blank" rel="noreferrer" class="btn-primary web-button-large">Open Account</a>
+          </div>
+          <div class="cta-card cta-dark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--n8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46L12 9h8a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46L12 15z"/></svg>
+            <h3 class="web-title-4">Join Traders Club</h3>
+            <p class="web-body-small">Already a Geojit client? Subscribe for ₹6,000 + GST and start saving on every F&amp;O trade.</p>
+            <a href="https://www.geojit.com/traders-club" target="_blank" rel="noreferrer" class="btn-primary web-button-large">Subscribe Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="terms">
+      <div class="max-3xl">
+        <h2 class="web-title-3">Terms &amp; Conditions</h2>
+        <div class="tc-item">
+          <button class="tc-toggle" type="button" aria-expanded="false" aria-controls="tc-panel-0"><span>Eligibility</span><span class="tc-icon tc-down"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="tc-icon tc-up"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></span></button>
+          <div class="tc-panel" id="tc-panel-0" hidden><ul><li>Restricted to individual clients only. NRIs, corporates, HUFs, trusts, and institutions are excluded.</li><li>Available only via digital/online channels — branches and assisted trading are ineligible.</li><li>Requires an active Demat Account with Geojit; account closure ends eligibility immediately.</li></ul></div>
+        </div>
+        <div class="tc-item">
+          <button class="tc-toggle" type="button" aria-expanded="false" aria-controls="tc-panel-1"><span>Subscription &amp; Fee</span><span class="tc-icon tc-down"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="tc-icon tc-up"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></span></button>
+          <div class="tc-panel" id="tc-panel-1" hidden><ul><li>Subscription fee: ₹6,000 + applicable GST.</li><li>Duration: 6 months from the date of activation.</li><li>The fee is a standalone service charge and is not credited to the trading ledger or margin account.</li><li>Non-refundable and non-transferable under any circumstance.</li></ul></div>
+        </div>
+        <div class="tc-item">
+          <button class="tc-toggle" type="button" aria-expanded="false" aria-controls="tc-panel-2"><span>Brokerage Benefit</span><span class="tc-icon tc-down"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="tc-icon tc-up"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></span></button>
+          <div class="tc-panel" id="tc-panel-2" hidden><ul><li>Eligible trades in Equity and Commodity Derivatives on NSE, BSE, and MCX attract one paisa per contract note.</li><li>Applies strictly to online trades. This is a pricing benefit only, not investment advice.</li></ul></div>
+        </div>
+        <div class="tc-item">
+          <button class="tc-toggle" type="button" aria-expanded="false" aria-controls="tc-panel-3"><span>Exclusions</span><span class="tc-icon tc-down"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="tc-icon tc-up"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></span></button>
+          <div class="tc-panel" id="tc-panel-3" hidden><p class="terms-intro">The plan does not cover:</p><ul><li>Equity Cash, Currency Derivatives, Mutual Funds, Bonds, and IPOs.</li><li>STT, Stamp Duty, GST, Exchange transaction charges, and SEBI turnover charges remain applicable.</li><li>RMS square-off charges, penalty charges, and delayed payment charges are not waived.</li></ul></div>
+        </div>
+        <div class="tc-item">
+          <button class="tc-toggle" type="button" aria-expanded="false" aria-controls="tc-panel-4"><span>Plan Expiry &amp; Modification</span><span class="tc-icon tc-down"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="tc-icon tc-up"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></span></button>
+          <div class="tc-panel" id="tc-panel-4" hidden><ul><li>Benefits cease automatically after 6 months from activation.</li><li>Geojit reserves the right to modify, suspend, withdraw, or discontinue the plan at any time.</li><li>Changes communicated via email, SMS, or platform notifications constitute your acceptance.</li></ul></div>
+        </div>
+        <div class="tc-item">
+          <button class="tc-toggle" type="button" aria-expanded="false" aria-controls="tc-panel-5"><span>Risk Disclosure &amp; Governance</span><span class="tc-icon tc-down"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="tc-icon tc-up"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></span></button>
+          <div class="tc-panel" id="tc-panel-5" hidden><ul><li>By subscribing, you confirm full awareness of risks including leverage, volatility, margin shortfall, and unlimited loss potential.</li><li>The plan is a brokerage pricing benefit — not investment advice, research, or a solicitation to trade.</li><li>Governed by Indian law; disputes fall under jurisdiction of Kochi, Kerala.</li><li>Disputes resolved via arbitration under the Arbitration and Conciliation Act, 1996.</li><li>Grievances may be raised via SEBI's SCORES portal or ODR mechanism.</li></ul></div>
+        </div>
+        <div class="terms-link">
+          <a href="https://www.geojit.com/TandC-traders-club-plan" target="_blank" rel="noreferrer" class="btn-outline web-button-medium">View Full T&amp;C <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner max-5xl">
+        <div class="footer-top">
+          <div class="footer-logo"><img src="assets/White_in_Transparent-1.png" alt="Geojit" /></div>
+          <div class="footer-contact-links">
+            <div class="footer-contact">
+              <p class="web-body-xsmall"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 10.8 19.79 19.79 0 0 1 .1 2.18 2 2 0 0 1 2.11 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L6.1 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" transform="translate(1 1) scale(.92)"/></svg>+91 0484-6193200</p>
+              <p class="web-body-xsmall"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>customercare@geojit.com</p>
+            </div>
+            <div class="footer-links">
+              <a class="web-body-xsmall" href="https://www.geojit.com/TandC-traders-club-plan" target="_blank" rel="noreferrer">T&amp;C</a>
+              <a class="web-body-xsmall" href="https://www.geojit.com/privacy-policy" target="_blank" rel="noreferrer">Privacy Policy</a>
+              <a class="web-body-xsmall" href="https://www.geojit.com/gil" target="_blank" rel="noreferrer">www.geojit.com/gil</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-disclaimer">
+          <p class="web-body-xsmall">Geojit Investments Limited. Registered Office: 7th Floor, 34/659-P, Civil Line Road, Padivattom, Kochi - 682024. Phone: +91 0484-6193200. Website: www.geojit.com/gil. For investor queries: customercare@geojit.com. For grievances: grievances@geojit.com. For compliance officer: compliance@geojit.com. Corporate Identity Number: U66110KL2023PLC080586. SEBI Registration Nos — Stock Broker: INZ000318938, Depository Participant: IN-DP-781-2024, Research Entity: INH000019567. Member NSE: TM ID 13372, BSE: TM ID 328, MCX: TM ID 55920, NCDEX: TMID 1243. Investment in securities market are subject to market risks, read all the related documents carefully before investing. There is no guarantee of returns. Brokerage shall not exceed SEBI-prescribed limits. Image is AI generated and is intended for illustration purposes only. Securities quoted are exemplary and are not recommendatory.</p>
+          <p class="web-body-xsmall">© <span id="year"></span> Geojit Financial Services Ltd. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <div class="modal-card">
+      <button class="modal-close" type="button" id="closeModal" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <div class="modal-intro" id="modalIntro">
+        <p class="web-chips-large eyebrow">Get in touch</p>
+        <h2 class="web-title-3" id="leadModalTitle">Know more about Traders Club</h2>
+      </div>
+      <form class="form" id="leadForm" novalidate>
+        <div class="field">
+          <label class="web-body-xsmall" for="name">Full Name</label>
+          <input id="name" name="name" type="text" placeholder="Your full name" />
+          <p class="web-body-xsmall field-error" data-error-for="name">Full name is required.</p>
+        </div>
+        <div class="field">
+          <label class="web-body-xsmall" for="mobile">Mobile Number</label>
+          <input id="mobile" name="mobile" type="tel" placeholder="10-digit mobile number" />
+          <p class="web-body-xsmall field-error" data-error-for="mobile">Enter a valid 10-digit mobile number.</p>
+        </div>
+        <div class="field">
+          <label class="web-body-xsmall" for="email">Email Address</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" />
+          <p class="web-body-xsmall field-error" data-error-for="email">Enter a valid email address.</p>
+        </div>
+        <div class="field">
+          <label class="web-body-xsmall" for="location">Location</label>
+          <input id="location" name="location" type="text" placeholder="City / State" />
+          <p class="web-body-xsmall field-error" data-error-for="location">Location is required.</p>
+        </div>
+        <button class="btn-primary web-button-large" style="width:100%;margin-top:8px" type="submit">Submit Enquiry</button>
+        <p class="web-body-xsmall modal-note">We'll get back within 1 business day</p>
+      </form>
+      <div class="success" id="successState">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <h2 class="web-title-3">Thank you!</h2>
+        <p class="web-body-medium">Our team will reach out to you shortly.</p>
+        <button class="btn-primary web-button-large" type="button" id="successClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const features = [
+      { label: 'Option Chain', desc: 'Real-time options data with strike analysis', image: 'assets/Option-Chain-1.png' },
+      { label: 'Payoff Chart', desc: 'Visualize profit/loss scenarios instantly', image: 'assets/Payoff-Chart-1.png' },
+      { label: 'Strategy Orders', desc: 'Execute complex multi-leg strategies', image: 'assets/stratagy.png' },
+      { label: 'Multileg Orders', desc: 'Combine multiple positions seamlessly', image: 'assets/Multi_leg-1.png' },
+      { label: 'OI Insights', desc: 'Track open interest trends & patterns', image: 'assets/OI-Insight-1.png' },
+      { label: 'Multi-Strike OI Charts', desc: 'Compare OI across multiple strikes', image: 'assets/Future-OI-1.png' },
+      { label: 'Basket Orders', desc: 'Execute multiple orders in one click', image: 'assets/Basket-_Orders-1.png' },
+      { label: 'Split Orders', desc: 'Break large orders into smaller lots', image: 'assets/split-Order-1.png' },
+      { label: 'Position Grouping', desc: 'Organize & track related positions', image: 'assets/group-position.png' },
+      { label: 'OCO Orders', desc: 'One-Cancels-Other order execution', image: 'assets/OCO-1.png' }
+    ];
+
+    const AUTO_MS = 4000;
+    let active = 0;
+    let progress = 0;
+    let paused = false;
+    let timer = null;
+    let progTimer = null;
+
+    const activeCard = document.getElementById('activeCard');
+    const activeImg = document.getElementById('activeImg');
+    const activeTitle = document.getElementById('activeTitle');
+    const activeDesc = document.getElementById('activeDesc');
+    const prevGhostImg = document.getElementById('prevGhostImg');
+    const nextGhostImg = document.getElementById('nextGhostImg');
+    const progressBar = document.getElementById('progressBar');
+    const dotsWrap = document.getElementById('dots');
+    const carousel = document.getElementById('featureCarousel');
+
+    function idx(n) { return (n + features.length) % features.length; }
+    function renderDots() {
+      dotsWrap.innerHTML = '';
+      features.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'dot' + (i === active ? ' active' : '');
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        btn.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(btn);
+      });
+    }
+    function renderFeature() {
+      const f = features[active];
+      const prev = features[idx(active - 1)];
+      const next = features[idx(active + 1)];
+      activeImg.src = f.image;
+      activeImg.alt = f.label + ' screenshot';
+      activeTitle.textContent = f.label;
+      activeDesc.textContent = f.desc;
+      prevGhostImg.src = prev.image;
+      prevGhostImg.alt = prev.label;
+      nextGhostImg.src = next.image;
+      nextGhostImg.alt = next.label;
+      progress = 0;
+      progressBar.style.width = '0%';
+      activeCard.style.animation = 'none';
+      activeCard.offsetHeight;
+      activeCard.style.animation = '';
+      renderDots();
+      restartTimers();
+    }
+    function goTo(i) { active = idx(i); renderFeature(); }
+    function prev() { goTo(active - 1); }
+    function next() { goTo(active + 1); }
+    function clearTimers() { clearInterval(timer); clearInterval(progTimer); }
+    function restartTimers() {
+      clearTimers();
+      if (paused) return;
+      const tick = 50;
+      progTimer = setInterval(() => {
+        progress = Math.min(progress + (tick / AUTO_MS) * 100, 100);
+        progressBar.style.width = progress + '%';
+      }, tick);
+      timer = setInterval(() => next(), AUTO_MS);
+    }
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevGhost').addEventListener('click', prev);
+    document.getElementById('nextGhost').addEventListener('click', next);
+    carousel.addEventListener('mouseenter', () => { paused = true; clearTimers(); });
+    carousel.addEventListener('mouseleave', () => { paused = false; restartTimers(); });
+    renderFeature();
+
+    document.querySelectorAll('.tc-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        panel.hidden = expanded;
+      });
+    });
+
+    const modal = document.getElementById('leadModal');
+    const form = document.getElementById('leadForm');
+    const intro = document.getElementById('modalIntro');
+    const success = document.getElementById('successState');
+    function openModal() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      form.classList.remove('hidden');
+      intro.classList.remove('hidden');
+      success.classList.remove('active');
+      setTimeout(() => document.getElementById('name').focus(), 50);
+    }
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      form.reset();
+      document.querySelectorAll('.field input').forEach(input => input.classList.remove('error'));
+      document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
+    }
+    document.querySelectorAll('.js-open-modal').forEach(el => el.addEventListener('click', openModal));
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('successClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+
+    function setError(name, show) {
+      const input = document.querySelector('[name="' + name + '"]');
+      const err = document.querySelector('[data-error-for="' + name + '"]');
+      input.classList.toggle('error', show);
+      err.classList.toggle('visible', show);
+    }
+    form.addEventListener('input', e => {
+      if (e.target && e.target.name) setError(e.target.name, false);
+    });
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const values = {
+        name: String(fd.get('name') || '').trim(),
+        mobile: String(fd.get('mobile') || '').trim(),
+        email: String(fd.get('email') || '').trim(),
+        location: String(fd.get('location') || '').trim()
+      };
+      const errors = {
+        name: !values.name,
+        mobile: !/^\d{10}$/.test(values.mobile),
+        email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email),
+        location: !values.location
+      };
+      Object.entries(errors).forEach(([name, show]) => setError(name, show));
+      if (Object.values(errors).some(Boolean)) return;
+      form.classList.add('hidden');
+      intro.classList.add('hidden');
+      success.classList.add('active');
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
